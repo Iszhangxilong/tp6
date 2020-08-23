@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+{include file='public/head'/}
+<body>
+<!--[if lt IE 9]>
+{include file='public/ie-js'/}
+<![endif]-->
+<div class="menu">
+    <ul class="clearfix">
+        <li class="active col"><a href="{:url('/Newslist/menuindex',['fun'=>$fid,'id'=>$id])}" target="content">文章列表</a></li>
+        <li class="col"><a href="{:url('/Newslist/newsadd',['fun'=>$fid,'id'=>$id])}" target="content">文章添加</a></li>
+    </ul>
+</div>
+<div class="gb-table">
+    <div class="table-responsive">
+       <form action="{:url('/Newslist/checkdel',['fun'=>$fid,'id'=>$id])}" method="post" class="delform" enctype="multipart/form-data">
+            <table class="table table-striped table-hover table-bordered table-bordered2">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="js-all"></th>
+                    <th>ID</th>
+                    <th>标题</th>
+                    <th>点击数</th>
+                    <th>排序</th>
+                    <th>图片</th>
+                    <th>发布者</th>
+                    <th>更新时间</th>
+                    <th width="200">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="$data.list" id="vo"}
+                    <tr>
+                        <td><input type="checkbox" class="js-check" value="{$vo.id}" name="del[]"></td>
+                        <td>{$vo.id}</td>
+                        <td><a href="{:url('/Newslist/newsedit',['fun'=>$fid,'cid'=>$id,'id'=>$vo.id,'page'=>$page])}">{$vo.title}</a></td>
+                        <td>{$vo.clicks}</td>
+                        <td><input type="text" class="form-control input-sm" style="width: 60px" value="{$vo.num}" name="num" Onblur="return order(this.value,this.id,'{$vo['parentid']}');" id="{$vo.id}"></td>
+                        <td><a href="{$vo.photo}" data-toggle="lightbox" data-caption="{$vo.title}"><img src="{$vo.photo}" width="100" height="50" border="0" /></a></td>
+<!--                        <td><span class="switch-on" themeColor="#0b61b1" data-yes="开启" data-no="关闭" id="fly"></span></td>-->
+                        <td>{$vo.admin}</td>
+                        <td>{$vo.dates}</td>
+                        <td><a href="{:url('/Newslist/newsedit',['fun'=>$fid,'cid'=>$id,'id'=>$vo.id,'page'=>$page])}"><i class="icon icon-edit" style="color: #0183d6"></i>修改</a> <span class="line">|</span>
+                        <a   href="javascript:;" wow="{$vo.id}" delurl="{:url('/Newslist/ajaxdel',['cid'=>$id])}" class="del" style="color:red"><i class="icon icon-trash" style="color:red"></i>删除</a></td>
+                    </tr>
+                {/volist} 
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="10">
+                        <a href="javascript:;" class="btn btn-danger"  wow="{:url('/Newslist/checkdel',['fun'=>$fid,'id'=>$id])}" id="alldel">删除</a>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <div class="row gb-pager">
+        <div class="col">
+            共{$data.total}条，每页显示
+        </div>
+        <div class="col">
+            <ul class="pager pager-pills" data-elements="first_icon">
+                {$data.getpage|raw}
+            </ul>
+        </div>
+
+    </div>
+</div>
+{include file='public/js'/}
+{include file='public/mess'/}
+</body>
+</html>

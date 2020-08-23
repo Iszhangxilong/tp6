@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+{include file='public/head'/}
+<body>
+<!--[if lt IE 9]>
+{include file='public/ie-js'/}
+<![endif]-->
+<div class="content iframe-minheight">
+    <div class="aside">
+        <div class="nav">
+            <ul>
+
+                {volist name="menud" id="vo" key="key"}
+                <li {if condition="$key eq 1"}class="active"{/if}>
+                <h3 {if condition="$key eq 1"}data-off="true"{else/}data-off="false"{/if}>{$vo.p_names} <i class="icon icon-angle-right"></i></h3>
+                <div class="subnav">
+                    <ul>
+                        {volist name="$vo.chid" id="v"}
+                        {if condition="$v.id eq 35"}
+                        <li {if condition="$onechid.id eq $v.id"}class="has-subnav active selected"{else/}class="has-subnav"{/if}>
+                        <h4><i class="icon icon-angle-right"></i> {$v.p_names}</h4>
+                        <div class="three-subnav">
+                            <dl>
+                                <dt>栏目列表</dt>
+                                {volist name='leftmenu' id='four'}
+                                {if condition='!$four.chid->isEmpty()'}
+                                <dd class="active">
+                                    <h4>{$four.c_names}</h4><!--1级栏目名称-->
+                                    <div class="four-subnav">
+                                        <ul>
+                                            {volist name='$four.chid' id='five'}
+
+                                            {if condition="!$five.chid->isEmpty()"}
+                                            <li class="active">
+                                                <a href="javascript:;">{$five['c_names']}</a><!--二级栏目名称-->
+                                                <div class="five-subnav">
+                                                    <ul>
+                                                        {volist name='$five.chid' id='six'}
+                                                        {if condition='!$six.chid->isEmpty()'}
+                                                        <li class="active">
+                                                            <a href="javascript:;"><i class="icon icon-angle-right"></i>{$six['c_names']}</a>
+                                                            <div class="six-subnav">
+                                                                {volist name='$six.chid' id='siji'}
+                                                                <div class="item">
+                                                                    <a class="active" href="{:url('/Newslist/menuindex','fun='.$siji['fun'].'&id='.$siji['id'])}" target="content" title="{$siji['c_names']}"><i class="icon icon-angle-right"></i>{$siji['c_names']}</a>
+                                                                    {if condition='!$siji.chid->isEmpty()'}
+                                                                    <div class="sub" style="display:block;">
+                                                                        {volist name='$siji.chid' id='wuji'}<!--5级循环开始-->
+                                                                        <div class="item">
+                                                                            <a class="active" href="{:url('/Newslist/menuindex','fun='.$wuji['fun'].'&id='.$wuji['id'])}" target="content" title="{$wuji['c_names']}"><i class="icon icon-angle-right"></i>{$wuji['c_names']}</a>
+                                                                            {if condition='!$wuji.chid->isEmpty()'}
+                                                                            <div class="sub" style="display:block;">
+                                                                                {volist name='$wuji.chid' id='liuji'}
+                                                                                <div class="item">
+                                                                                    <a class="active" href="{:url('/Newslist/menuindex','fun='.$liuji['fun'].'&id='.$liuji['id'])}" target="content" title="{$liuji['c_names']}"><i class="icon icon-angle-right"></i>{$liuji['c_names']}</a>
+                                                                                    {if condition='!$liuji.chid->isEmpty()'}
+                                                                                    <div class="sub" style="display:block;">
+                                                                                        {volist name='$liuji.chid' id='qiji'}
+                                                                                        <div class="item">
+                                                                                            <a class="active" href="{:url('/Newslist/menuindex','fun='.$qiji['fun'].'&id='.$qiji['id'])}" target="content" title="{$qiji['c_names']}"><i class="icon icon-angle-right"></i>{$qiji['c_names']}</a>
+                                                                                            {if condition='!$qiji.chid->isEmpty()'}
+                                                                                            <div class="sub" style="display:block;">
+                                                                                                {volist name='$qiji.chid' id='baji'}
+                                                                                                <div class="item">
+                                                                                                    <a class="active" href="{:url('/Newslist/menuindex','fun='.$baji['fun'].'&id='.$baji['id'])}" target="content" title="{$baji['c_names']}"><i class="icon icon-angle-right"></i>{$baji['c_names']}</a>
+                                                                                                </div>
+                                                                                                {/volist}
+                                                                                            </div>
+                                                                                            {/if}
+                                                                                        </div>
+                                                                                        {/volist}
+                                                                                    </div>
+                                                                                    {/if}
+                                                                                </div>
+                                                                                {/volist}
+                                                                            </div>
+                                                                            {/if}
+                                                                        </div>
+                                                                        {/volist}
+                                                                    </div>
+                                                                    {/if}
+                                                                </div>
+                                                                {/volist}
+                                                            </div>
+                                                        </li>
+                                                        {else/}
+                                                        <li><a href="{:url('/Newslist/menuindex?fun='.$six['fun'].'&id='.$six['id'])}" target="content" title="{$six['c_names']}"><i class="icon icon-angle-right"></i>{$six['c_names']}</a></li>
+                                                        {/if}
+                                                        {/volist}
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                            {else/}
+                                            <li><a href="{:url('/Newslist/menuindex?fun='.$five['fun'].'&id='.$five['id'])}" target="content" title="{$five['c_names']}">{$five['c_names']}</a></li>
+                                            {/if}
+                                            {/volist}
+
+                                        </ul>
+                                    </div>
+                                </dd>
+                                {else/}
+                                <dd><a href="{:url('/Newslist/menuindex?fun='.$four['fun'].'&id='.$four['id'])}" target="content" title="{$four.c_names}">{$four.c_names}</a></dd>
+                                {/if}
+                                {/volist}
+                            </dl>
+                        </div>
+                        </li>
+                        {else/}
+                        <li><a {if condition="$v.id eq 37"}href="__ROOT__/{$v.webs}"{else/}href="{:url($v['model'])}"{/if} target="content"><i class="icon icon-angle-right"></i> {$v.p_names}</a></li>
+                        {/if}
+                        {/volist}
+                    </ul>
+                </div>
+                </li>
+                {/volist}
+            </ul>
+        </div>
+        <div class="off"><i class="icon icon-angle-left"></i></div>
+    </div>
+    <div class="right-content marginLeft">
+        {if condition="$onechid.id eq 35"}
+        <iframe frameborder="no" border="0" src="" name="content" width="100%" height="100%"></iframe>
+        {elseif condition="$onechid.id eq 37"/}
+        <iframe frameborder="no" border="0" src="__ROOT__/{$onechid.webs}" name="content" width="100%" height="100%"></iframe>
+        {else/}
+        <iframe frameborder="no" border="0" src="{:url($onechid['model'])}" name="content" width="100%" height="100%"></iframe>
+        {/if}
+    </div>
+</div>
+{include file='public/js'}
+<script>
+    (function(){
+        //菜单操作
+        $('.content .aside .off').click(function () {
+            if($(this).hasClass('active')){
+                $(this).parent().removeClass('active').find('.three-subnav').removeClass('curr');
+                $(this).removeClass('active')
+            }else {
+                $(this).parent().addClass('active').find('.three-subnav').addClass('curr');
+                $(this).addClass('active')
+            }
+        })
+
+        var meun={
+            init : function(){
+                this.meunClick();
+            },
+            meunClick : function(){
+                $('.content .aside .nav h3').on('click', function(){
+                    var _this=$(this).parent('li');
+                    var size=_this.find('.has-subnav.active.selected').size();
+                    if($(this).data('off')){
+                        _this.removeClass('active');
+                        $(this).siblings('.subnav').stop().slideUp();
+                        $(this).data('off', false);
+                    }else{
+                        _this.siblings().removeClass('active selected').find('.subnav').slideUp();
+                        _this.siblings().find('h3').data('off', false);
+                        _this.addClass('active');
+                        $(this).siblings('.subnav').stop().slideDown();
+                        $(this).data('off', true);
+                        $('.right-content').removeClass('marginLeft');
+                    }
+                    if(size > 0 && $(this).data('off')==true){
+                        $('.right-content').addClass('marginLeft');
+                    }else{
+                        $('.right-content').removeClass('marginLeft');
+                    }
+                });
+
+                /* $('.content .aside .nav .subnav li>a').click(function () {
+                 _this=$(this).parent();
+                 _this.addClass('notice').siblings().removeClass('notice');
+                 });*/
+
+                $('.aside .subnav>ul>li>a').on('click', function(){
+                    var _this=$(this).parent();
+                    _this.addClass('selected active').siblings().removeClass('selected active');
+                    $('.right-content').removeClass('marginLeft');
+                });
+                $('.aside .nav>ul>li>a').on('click', function(){
+                    var _this=$(this).parent();
+                    $('.right-content').removeClass('marginLeft');
+                    _this.addClass('selected').siblings().removeClass('active selected');
+                });
+
+                //三级菜单
+                $('.has-subnav>h4').click(function(){
+                    var _this=$(this).parent();
+                    /* if(_this.hasClass('selected')){
+                     _this.removeClass("selected")
+                     _this.find('.three-subnav').hide();
+                     }else{
+                     _this.addClass("selected");
+                     _this.find('.three-subnav').show();
+                     }*/
+                    _this.addClass('active selected').siblings().removeClass('active selected');
+                    $('.right-content').addClass('marginLeft');
+                });
+
+                //四级菜单
+                $('.three-subnav dd h4').click(function(){
+                    var _this=$(this).parent();
+                    if(_this.hasClass('active')){
+                        _this.find('.four-subnav').slideUp();
+                        _this.removeClass('active');
+                    }else{
+                        _this.find('.four-subnav').slideDown();
+                        _this.addClass('active');
+                    }
+                });//四级菜单
+                $('.four-subnav li>a').click(function(){
+                    var _this=$(this).parent();
+                    if(_this.hasClass('active')){
+                        _this.find('.five-subnav').slideUp();
+                        _this.removeClass('active');
+                    }else{
+                        _this.find('.five-subnav').slideDown();
+                        _this.addClass('active');
+                    }
+                });
+                $('.item>a').click(function () {
+                    var o=$(this).next('.sub').size()>0;
+                    if($(this).hasClass('active')){
+                        $(this).next('.sub').slideUp();
+                        $(this).removeClass('active')
+                    }else {
+                        $(this).addClass('active')
+                        $(this).next('.sub').slideDown();
+                    }
+
+
+                    if(o){return false}
+
+
+                })
+
+            }
+        };
+        return meun.init();
+    }());
+</script>
+</body>
+</html>

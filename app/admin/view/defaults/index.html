@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+{include file='public/head'/}
+<body>
+<!--[if lt IE 9]>
+{include file='public/ie-js'/}
+<![endif]-->
+<div class="layout minwidth">
+    <!--[if lt IE 9]>
+    <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a>
+        来提升用户体验.
+    </div>
+    <![endif]-->
+    <div class="header">
+        <div class="logo pull-left">
+            <a href="#" target="_blank">
+                <i><img src="__ADMIN__/imgs/logo2.png" alt=""></i>
+                <span>尚品中国</span>
+            </a>
+        </div>
+        <div class="nav pull-left">
+            <ul>
+
+              {volist name="menudata" id="vo" key="k"}
+                <li {if condition="$k eq 1"}class="active"{/if}>
+                    <a href="{:url('/'.$vo['model'].'/index',['yid'=>$vo['id']])}" target="main">
+                        <i class="icon" >
+                            <img src="/public/{$vo.photo}" alt="">
+                        </i>
+                        <h3>{$vo.p_names}</h3>
+                    </a>
+                </li>
+              {/volist}
+            </ul>
+        </div>
+
+        <div class="pull-right">
+            <a href="/" class="icon icon-home" style="font-size: 20px;"  target="_blank" title="浏览站点"></a>
+            <a href="javascript:void(0);" onclick="siteMap();" class="icon icon-globe" style="font-size: 20px;"  title="站点地图"></a>
+<!--            <a href="javascript:void(0);" onclick="clear_log();"  class="icon icon-newspaper-o" style="font-size: 20px;" data-toggle="popover" title="日志文件"></a>-->
+            <a href="javascript:void(0);" onclick="clearCache('1');" class="icon icon-leaf" style="font-size: 20px;" data-toggle="popover" title="清除缓存"></a>
+            <a href="javascript:void(0)" onclick="javascript:window.top.frames['main'].document.location.reload();" style="font-size: 20px;" class="icon icon-refresh" title="刷新" ></a>
+            <a href="{:url('admin/Garbage/index')}" class="icon icon-trash" style="font-size: 20px;" target="main" title="回收站"></a>
+            <a href="{:url('admin/Center/index')}" class="icon icon-user" style="font-size: 20px;" target="main" title="个人中心" ></a>
+            <a href="javascript:void(0);" wow="{:url('/Defaults/outlogin')}" onclick="outlogin($(this));" title="注销" class="icon icon-off" style="font-size: 20px;"></a>
+        </div>
+    </div>
+    <div class="iframe-container" style="height: 500px;">
+        <iframe name="main" frameborder="no" border="0"  width="100%" height="100%" src="{:url('/'.$menudata[0]['model'].'/index',['yid'=>$menudata[0]['id']])}"></iframe>
+    </div>
+</div>
+</body>
+<script src="__ADMIN__/lib/jquery/jquery.js"></script>
+<script src="__ADMIN__/lib/zui/js/zui.min.js"></script>
+<script src="__ADMIN__/lib/chosen/chosen.min.js"></script>
+<script src="__ADMIN__/js/myscript.js"></script>
+<script src="__ADMIN__/layer/layer.js"></script>
+<!--自动退出登录-->
+<script type="text/javascript">
+    function clearCache(type) {
+        // 或者在初始化时指定弹出方向
+
+        $.ajax({
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            data:type,
+            url: "{:url('/Cachelist/del')}" ,//url
+            success:function (res) {
+
+                if(res == 1){
+
+                    layer.msg('缓存已清除',{time:2000,icon:1});
+
+                }
+
+            }
+        });
+    }
+
+    function outlogin(obj) {
+        var url = obj.attr('wow');
+        layer.alert('确定要退出后台吗？', {
+            skin: 'layui-layer-molv' //样式类名  自定义样式
+            ,closeBtn: 1    // 是否显示关闭按钮
+            ,anim: 1 //动画类型
+            ,btn: ['确定','取消'] //按钮
+            ,icon: 8    // icon
+            ,yes:function(){
+                window.location.href=url;
+            }
+        });
+    }
+
+    function siteMap() {
+
+        $.ajax({
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "{:url('/Sitemap/index')}" ,//url
+            success:function (res) {
+                if(res.msg == 1){
+                    layer.open({
+                        type: 1
+                        ,title: false //不显示标题栏
+                        ,closeBtn: false
+                        ,area: '450px'
+                        ,shade: 0.6
+                        ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                        ,btn: ['立即查看', '关闭']
+                        ,btnAlign: 'c'
+                        ,moveType: 1 //拖拽模式，0或者1
+                        ,content: '<div style="padding: 50px; line-height: 20px; background-color: #0b61b1; color: #fff; font-weight: 300;">您的站点地图已生成完成<br><br>访问方式：http://www.xxx.com/sitemap.xml<br><br>耗时：'+res.time+'秒</div>'
+                        ,success: function(layero){
+                            var btn = layero.find('.layui-layer-btn');
+                            btn.find('.layui-layer-btn0').attr({
+                                href: '/sitemap.xml'
+                                ,target:'_blank'
+                            });
+                        }
+                    });
+                }
+
+
+            }
+        });
+    }
+
+
+    function clear_log() {
+        $.ajax({
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "{:url('/Defaults/clearlog')}" ,//url
+            success:function (res) {
+                if(res.code == 1){
+                    layer.msg("日志清除成功！耗时"+res.time,{icon:1,time:3000});
+                }
+            }
+        });
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        if({$code} == 1)
+        {
+            layer.alert('您网站的日志文件已超过500MB，建议清理日志文件！', {
+                skin: 'layui-layer-molv' //样式类名  自定义样式
+                ,closeBtn: 1    // 是否显示关闭按钮
+                ,anim: 1 //动画类型
+                ,btn: ['立即清理','取消'] //按钮
+                ,icon: 8    // icon
+                ,yes:function(){
+                    clear_log();
+                }
+            });
+        }
+    });
+</script>
+
+</html>

@@ -1,0 +1,42 @@
+<script>
+    $(function () {
+        //判断返回状态弹出提示信息
+        addMessage();
+        editMessage();
+        delMessage();
+    })
+    function addMessage() {
+        var state = {$state};
+        if(state == 1){
+            layer.msg('已添加',{time:3000,icon:1});
+        }else if(state == 2){
+            layer.msg('未添加,内容未修改',{time:3000,icon:2});
+        }else if( state == 3){
+            layer.msg('未添加,内容含有违禁词语',{time:3000,icon:5});
+        }else if(state == 4){
+            layer.msg('提交方式不正确',{time:3000,icon:2});
+        }
+    }
+    function editMessage() {
+        var state = {$condit};
+        if(state==1){
+            layer.msg('已修改',{time:3000,icon:1});
+        }else if(state==2){
+            layer.msg('未修改,内容未改变',{time:3000,icon:2});
+        }else if(state==3){
+            layer.msg('未修改，内容含有违禁词语',{time:3000,icon:5});
+        }else if(state==4){
+            layer.msg('提交方式不正确',{time:3000,icon:2});
+        }
+    }
+    function delMessage() {
+        var decode = {$decode};
+        if(decode == 1){
+            layer.msg('选中已删除',{time:3000,icon:1});
+        }else if(decode == 2){
+            layer.msg('选中未删除',{time:3000,icon:2});
+        }else if(decode == 3){
+            layer.msg('提交方式不正确',{time:3000,icon:2});
+        }
+    }
+</script>

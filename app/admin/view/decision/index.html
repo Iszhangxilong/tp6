@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+{include file='public/head'/}
+<body>
+<!--[if lt IE 9]>
+{include file='public/ie-js'/}
+<![endif]-->
+<div class="content iframe-minheight">
+    <div class="aside">
+        <div class="nav">
+            <ul>
+                {volist name="menud" id="vo" key="key"}
+                <li {if condition="$key eq 1"}class="active"{else/}class{/if}>
+                <h3 {if condition="$key eq 1"}data-off="true"{else/}data-off="false"{/if}>{$vo.p_names}<i class="icon icon-angle-right"></i></h3>
+                <div class="subnav" {if condition="$key eq 1"}style="display:block;"{/if}>
+                <ul>
+                    {volist name="$vo.chid" id="v"}
+                    <li {if condition="$onechid.id eq $v['id']"}class="active"{/if}><a href="{:url('/'.$v['model'])}" target="content"><i class="icon icon-angle-right"></i> {$v.p_names}</a></li>
+                    {/volist}
+                </ul>
+        </div>
+        </li>
+        {/volist}
+        </ul>
+
+        </div>
+    </div>
+    <div class="right-content">
+        <iframe frameborder="no" border="0" src="{:url('/'.$onechid.model)}" name="content" width="100%" height="100%"></iframe>
+    </div>
+</div>
+{include file='public/js'/}
+<script>
+    (function () {
+        //菜单操作
+        var meun = {
+            init: function () {
+                this.meunClick();
+            },
+            meunClick: function () {
+                $('.content .aside .nav h3').on('click', function () {
+                    if ($(this).data('off')) {
+                        $(this).parent('li').removeClass('active');
+                        $(this).siblings('.subnav').stop().slideUp();
+                        $(this).data('off', false);
+                    } else {
+                        $(this).parent('li').siblings().removeClass('active selected').find('.subnav').slideUp();
+                        $(this).parent('li').siblings().find('h3').data('off', false)
+                        $(this).parent('li').addClass('active');
+                        $(this).siblings('.subnav').stop().slideDown();
+                        $(this).data('off', true);
+                    }
+                });
+                $('.content .aside .nav .subnav li').click(function () {
+                    $(this).addClass('active').siblings().removeClass('active');
+                });
+                $('.content .aside .nav>ul>li>a').on('click', function () {
+                    $(this).parent('li').addClass('selected').siblings().removeClass('selected');
+                });
+
+                //三级菜单
+                $('.has-subnav').hover(function () {
+                    $(this).addClass("selected");
+                    $(this).find('.three-subnav').show();
+                    $('.right-content').addClass('marginLeft');
+                    $(this).find('.three-subnav').stop().animate({"left": 195, "zIndex": 99});
+                }, function () {
+                    $(this).removeClass("selected").find('.three-subnav').stop().animate({"left": 0, "zIndex": '-1'});
+                    $(this).find('.three-subnav').hide();
+                    $('.right-content').removeClass('marginLeft');
+                })
+
+                //四级菜单
+                $('.three-subnav dd').hover(function () {
+                    $(this).find('.four-subnav').slideDown();
+                    $(this).addClass('active');
+                }, function(){
+                    $(this).find('.four-subnav').slideUp();
+                    $(this).removeClass('active');
+                });
+
+            }
+        };
+        return meun.init();
+    }());
+</script>
+</body>
+</html>

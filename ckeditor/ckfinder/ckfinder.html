@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2007-2017, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://cksource.com/ckfinder/license
+-->
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+	<title>CKFinder 3 - File Browser</title>
+</head>
+<body>
+
+<script src="/ckeditor/ckfinder/ckfinder.js"></script>
+<script>
+	CKFinder.start();
+</script>
+
+<script type="text/javascript">
+
+	function ajax(url,fnSucc){
+
+		if(window.XMLHttpRequest){
+			var oAjax = new XMLHttpRequest();
+		}else{
+			var oAjax = new ActiveXObject("Microsoft.XMLHTTP");//IE6浏览器创建ajax对象
+		}
+		oAjax.open("GET",url,true);//把要读取的参数的传过来。
+		oAjax.send();
+		oAjax.onreadystatechange=function(){
+			if(oAjax.readyState==4){
+				if(oAjax.status==200){
+					fnSucc(oAjax.responseText);//成功的时候调用这个方法
+				}else{
+					if(fnfiled){
+						fnField(oAjax.status);
+					}
+				}
+			}
+		};
+	}
+	$.post('./getsession.php',function(str){//读取a.txt文件里面的内容
+		if(str == 1){
+		}else{
+			location.href = "/spzgadmin.php";return fasle;
+		}
+	})
+</script>
+
+</body>
+</html>
+

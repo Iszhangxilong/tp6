@@ -1,0 +1,39 @@
+<script type="text/javascript" src="__ADMIN__/lib/jquery/jquery.js"></script>
+<script type="text/javascript" src="__ADMIN__/lib/zui/js/zui.min.js"></script>
+<script type="text/javascript" src="__ADMIN__/lib/chosen/chosen.min.js"></script>
+<script type="text/javascript" src="__ADMIN__/lib/colorpicker/zui.colorpicker.min.js"></script>
+<script type="text/javascript" src="__ADMIN__/lib/datetimepicker/datetimepicker.min.js"></script>
+<script type="text/javascript" src="__ADMIN__/js/myscript.js"></script>
+<script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="/ckeditor/ckfinder/ckfinder.js"></script>
+<script type="text/javascript" src="__ADMIN__/js/find.js"></script>
+<script type="text/javascript" src="__ADMIN__/layer/layer.js"></script>
+<script type="text/javascript" src="__ADMIN__/lib/zui/uploader/zui.uploader.js"></script>
+<script type="text/javascript" src="__ADMIN__/js/del.js"></script>
+<script type="text/javascript" src="__ADMIN__/js/copy.js"></script>
+<script type="text/javascript" src="__ADMIN__/js/date.js"></script>
+<script>
+    $(function () {
+        var maxTime = {$getSystemInit['quit_login_time']}; // seconds
+        var time = maxTime;
+        $('body').on('keydown mousemove mousedown', function(e){
+            time = maxTime; // reset
+        });
+        var intervalId = setInterval(function(){
+            time--;
+            if(time <= 0) {
+                ShowInvalidLoginMessage();
+                clearInterval(intervalId);
+            }
+        }, 1000)
+        function ShowInvalidLoginMessage(){
+            $.ajax({
+                type: "POST",//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: "{:url('/Defaults/outlogin')}" ,//url
+
+            });
+        }
+    });
+</script>

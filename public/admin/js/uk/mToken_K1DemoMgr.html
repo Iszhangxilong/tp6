@@ -1,0 +1,177 @@
+<html>
+	<head>
+		<title>K1 mToken Plugin Examples</title>
+		<style type="text/css">
+			<!--  
+ 				body{text-align:center}
+ 				td {width:200px}
+			-->	
+		</style>
+		
+		<script src="mToken_K1Mgr.js" type="text/javascript"></script>
+		<script src="mToken_K1PluginMgr.js" type="text/javascript"></script>
+		<script src="base64.js" type="text/javascript"></script>
+		
+	</head>
+	<body>
+		<object id="mTokenPlugin" type="application/x-mtokenplugin" width="0" height="0">
+    		<param value="pluginLoaded" />
+		</object>	
+		<h2>
+			 K1 mToken 管理端接口 演示示例
+		</h2>
+		<hr>	
+		<p>
+		<table align="center">
+			<tr>
+				<td>查找K1：</td>
+				<td><input type="text" value="" id="txt_FindDevice" name="FindDevice" style=" width:450px"/></td>				
+				<td align="center"><input type="button" value="查找" style="width:120px" onClick="return K1mTokenMgrFindDevice()"/></td>
+			</tr>
+		
+			<tr>
+				<td>唯一硬件ID：</td>
+				<td><input type="text" value="" id="txt_keyUID" name="keyUID" style=" width:450px"/></td>					
+				<td align="center"><input type="button" value="获取ID" style="width:120px" onClick="return K1mTokenMgrGetUID()"/></td>	
+			</tr>
+			
+			<tr height = "20px">	
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td>管理密码：</td>
+				<td><input type="text" value="admin" id="txt_AdminPwd" name="AdminPwd" style=" width:450px"/></td>				
+				<td align="center"><input type="button" value="登陆" style="width:120px" onClick="return K1mTokenMgrOpen()"/></td>
+				</tr>
+			
+			<tr>
+				<td>原密码：</td>
+				<td><input type="text" value="admin" id="txt_oldPwd" name="oldPwd" style=" width:450px"/></td>							
+				<td> </td>	
+			</tr>
+			
+			<tr>
+				<td>新密码：</td>	
+				<td><input type="text" value="admin" id="txt_newPwd" name="newPwd" style=" width:450px"/></td>						
+				<td align="center"><input type="button" value="修改密码" style="width:120px" onClick="return K1mTokenMgrChangePwd()"/></td>	
+			</tr>
+			
+			<tr height = "20px">	
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td>读用户存储区：</td>
+				<td><input type="text" value="" id="txt_readUserData" name="readUserData" style=" width:450px"/></td>					
+				<td align="center"><input type="button" value="读用户存储区" style="width:120px" onClick="return K1mTokenMgrReadUserStorage()"/></td>	
+			</tr>
+			
+			<tr>
+				<td>写用户存储区：</td>
+				<td><input type="text" value="1234567890AaBbCcDdEeFfGgHhIjJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz@" id="txt_writeUserData" name="writeUserData" style=" width:450px"/></td>					
+				<td align="center"><input type="button" value="写用户存储区" style="width:120px" onClick="return K1mTokenMgrWriteUserStorage()"/></td>
+			</tr>
+				
+			<tr>
+				<td>读安全存储区：</td>
+				<td><input type="text" value="" id="txt_readSafeData" name="readSafeData" style=" width:450px"/></td>					
+				<td align="center"><input type="button" value="读安全存储区" style="width:120px" onClick="return K1MgrmTokenReadSecureStorageByAdmin()"/></td>
+			</tr>
+						
+			<tr>
+				<td>写安全存储区：</td>
+				<td><input type="text" value="" id="txt_writeSafeData" name="writeSafeData" style=" width:450px"/></td>					
+				<td align="center"><input type="button" value="写安全存储区" style="width:120px" onClick="return K1MgrmTokenWriteSecureStorageByAdmin()"/></td>
+			</tr>
+			
+			<tr height = "20px">	
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td>SHA1种子码：</td>
+				<td><input type="text" value="FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF" id="txt_sha1Seed" name="sha1Seed" style=" width:450px"/></td>			
+				<td align="center"><input type="button" value="SHA1种子码设置" style="width:120px" onClick="return K1MgrmTokenSetSeedKey()"/></td>
+			</tr>		
+			
+			<tr>
+				<td>3DES秘钥</td>
+				<td><input type="text" value="ABCDEFGabcedefg0123456789zxcvbnm" id="txt_triDESKey" name="triDESKey" style=" width:450px"/></td>					
+				<td align="center"><input type="button" value="3DES秘钥设置" style="width:120px" onClick="return K1MgrmTokenSetMainKey()"/></td>
+			</tr>		
+			
+			<tr height = "20px">	
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td>客户端请求码：</td>
+				<td><input type="text" value="" id="txt_resetPwdRequest" name="resetPwdRequest" style=" width:450px"/></td	
+				<td align="center"></td>
+			</tr>
+		
+			<tr>
+				<td>新用户密码：</td>
+				<td><input type="text" value="12345678" id="txt_newUserPwd" name="newUserPwd" style=" width:450px"/></td	
+				<td align="center"></td>
+			</tr>
+			
+			<tr>
+				<td>生成重置密码响应：</td>
+				<td><input type="text" value="" id="txt_resetPwdResponse" name="resetPwdResponse" style=" width:450px"/></td>					
+				<td align="center"><input type="button" value="生成密码重置响应" style="width:120px" onClick="return K1MgrmTokenGenResetpwdResponse()"/></td>
+			</tr>
+			
+			<tr height = "20px">	
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td>解锁用户密码：</td>
+				<td><input type="text" value="12345678" id="txt_unlockPwd" name="unlockPwd" style=" width:450px"/></td>					
+				<td align="center"><input type="button" value="解锁用户密码" style="width:120px" onClick="return K1MgrmTokenUnlockPwd()"/></td>
+			</tr>
+			
+			<tr height = "20px">	
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td>别名：</td>
+				<td><input type="text" value="K1Demo" id="txt_label" name="label" style=" width:450px"/></td>			
+				<td align="center"></td>
+			</tr>
+			
+			<tr>
+				<td>网址：</td>
+				<td><input type="text" value="www.longmai.com.cn" id="txt_url" name="url" style=" width:450px"/></td			
+				<td align="center"> </td>
+			</tr>
+			
+			<tr>
+				<td>公司名称：</td>
+				<td><input type="text" value="BeijingLongmai" id="txt_companyName" name="companyName" style=" width:450px"/></td>					
+				<td align="center"> </td>
+			</tr>
+			
+			<tr>
+				<td>备注信息：</td>
+				<td><input type="text" value="Century Longmai Technology Co., Ltd" id="txt_remarks" name="remarks" style=" width:450px"/></td>		
+				<td align="center"> </td>
+			</tr>
+			
+			<tr>
+				<td>气泡信息：</td>
+				<td><input type="text" value="K1mToken" id="txt_tip" name="tip" style=" width:450px"/></td>				
+				<td align="center"> </td>
+			</tr>
+			
+			<tr>
+				<td>打开浏览器类型：</td>
+				<td><input type="text" value="1" id="txt_openBrowseType" name="openBrowseType" style=" width:450px"/></td>					
+				<td align="center"><input type="button" value="设备配置区设置" style="width:120px" onClick="return K1MgrmTokenSetUserInfo()"/></td>
+			</tr>
+		</table>
+	</body>
+</html>

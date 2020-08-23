@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+{include file='public/head'/}
+<body>
+<!--[if lt IE 9]>
+{include file='public/ie-js'/}
+<![endif]-->
+<div class="menu">
+    <ul class="clearfix">
+        <li class="active col"><a href="{:url('/Column/menu')}" >栏目列表</a></li>
+        <li class="col"><a href="{:url('/Column/add')}" >栏目添加</a></li>
+    </ul>
+</div>
+<div class="gb-list">
+   {$menulist|raw}
+</div>
+{include file='public/js'/}
+<script>
+    window.onload=function(){
+        var m=new Meun('.column-1');
+        m.init();
+        var m2=new Meun('.column-2');
+        m2.init();
+        var m3=new Meun('.column-3');
+        m3.init();
+        var m4=new Meun('.column-4');
+        m4.init();
+        var m5=new Meun('.column-5');
+        m5.init();
+        var m6=new Meun('.column-6');
+        m6.init();
+    };
+
+
+    function Meun(obj){
+        this.clickClass= $(obj+' .icon');
+        this.meun=obj;
+    }
+    Meun.prototype.init=function(){
+        var that=this;
+        this.clickClass.on('click',function(){
+            that.clickEvent(this);
+        })
+    };
+    Meun.prototype.clickEvent=function(obj){
+        var that=$(obj).parents(this.meun);
+        if(that.hasClass('selected')){
+            that.removeClass('selected').siblings('.table-list').stop().slideUp();
+        }else{
+            that.addClass('selected').siblings('.table-list').stop().slideDown();
+        }
+    };
+
+    function menudel(bt,id){
+        var bt=$(bt);
+        layer.confirm('确定删除该栏目？', {
+            btn: ['删除','取消'] ,
+            skin: 'layui-layer-lan'   //主题皮肤 可选 参考官网
+        }, function(index){
+            layer.close(index);
+            $.post("{?:url('delmenu')?}",{id:id},function(data){
+                  if(data==1){
+                    $(bt).parent().parent().parent().remove();
+                      layer.msg('栏目已删除',{time:3000,icon:1});
+                  }else if(data==2){
+                      layer.msg('栏目未删除',{time:3000,icon:2});
+                  }else if(data==3){
+                    new $.zui.Messager('请先删除子栏目', {
+                        type: 'important' // 定义颜色主题
+                    }).show();
+                  }
+            });
+
+        }, function(){
+            // layer.msg('也可以这样', {
+            //   time: 20000, //20s后自动关闭
+            //   btn: ['明白了', '知道了']
+            // });
+        });
+    }
+
+   function dbclick(id,tb){
+        var ish=$(tb).attr('wow');
+        var tht=$(tb).text();
+        if(tht=='显示'){
+             var num=0;
+        }else{
+             var num=1;
+        }
+
+        $.post("{?:url('clickmenu')?}",{id:id,num:num,ish:ish},function(data){
+              if(data==1){
+                   if(num==1){
+                      $(tb).text('显示');
+                      $(tb).css('color','green');
+                   }else{
+                      $(tb).text('不显示');
+                      $(tb).css('color','red');
+                   }
+              }
+        });
+   }
+</script>
+</body>
+</html>

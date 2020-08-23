@@ -1,0 +1,1 @@
+<?phpnamespace think;header("Content-type: text/html; charset=utf-8");ini_set('date.timezone','Asia/Shanghai');ini_set('max_execution_time', 1800);// 设置脚本运行时长 1800=60*10*3 三十分钟error_reporting(E_ALL & ~E_NOTICE);//session_start();if(session('loginStatus') == 1){	echo 1;die;}else{	// 弹出 未登录	echo 2;die;}
